@@ -1,4 +1,5 @@
 import Image from 'next/image';
+import { Button } from '@/components/ui/button';
 
 export default function Header() {
   return (
@@ -20,9 +21,9 @@ export default function Header() {
             />
           ))}
         </div>
-        <button className="cursor-pointer rounded border border-slate-300 p-2 shadow-2xs transition-colors hover:bg-slate-200">
+        <Button variant="outline" size="xs">
           <Image src="/icons/home.svg" alt="home icon" width={20} height={20} />
-        </button>
+        </Button>
       </div>
     </header>
   );
