@@ -5,6 +5,7 @@
 @theme inline {
   --font-sans: var(--font-fixel);
   --color-background: var(--white);
+  --color-gray: var(--gray);
 
   /* --color-background: var(--background); */
   --color-foreground: var(--foreground);

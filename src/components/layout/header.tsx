@@ -1,0 +1,29 @@
+import Image from 'next/image';
+
+export default function Header() {
+  return (
+    <header className="flex w-full flex-wrap items-center justify-between gap-4">
+      <Image
+        src="/logo.svg"
+        alt="AltShift logo"
+        width={179}
+        height={48}
+        priority
+      />
+      <div className="flex items-center gap-4 text-lg">
+        3/5 applications generated
+        <div className="flex gap-1">
+          {Array.from({ length: 5 }, (_, i) => (
+            <div
+              key={i}
+              className={`h-2 w-2 rounded-full ${i < 3 ? 'bg-slate-900' : 'bg-slate-300'}`}
+            />
+          ))}
+        </div>
+        <button className="cursor-pointer rounded border border-slate-300 p-2 shadow-2xs transition-colors hover:bg-slate-200">
+          <Image src="/icons/home.svg" alt="home icon" width={20} height={20} />
+        </button>
+      </div>
+    </header>
+  );
+}
