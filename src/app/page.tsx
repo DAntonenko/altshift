@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import Image from 'next/image';
+import Banner from '@/components/ui/banner';
 
 export default function Home() {
   return (
@@ -62,7 +63,7 @@ export default function Home() {
     //     </div>
     //   </main>
     // </div>
-    <main className="w-full">
+    <main className="my-8 flex w-full flex-col items-center justify-center gap-4">
       <Button>+ Create New</Button>
       <Button size="sm">+ Create New</Button>
       <Button className="w-full">Generate Now</Button>
@@ -93,6 +94,7 @@ export default function Home() {
           <Image src="/icons/copy.svg" alt="copy icon" width={20} height={20} />
         </Button>
       </div>
+      <Banner />
     </main>
   );
 }
