@@ -1,50 +1,64 @@
 'use client';
 
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
 import { Application } from '@/models/application';
+import { JobFormData } from '@/store/job-form.store';
 import { useJobFormStore } from '@/store/job-form.store';
+import { useApplicationsStore } from '@/store/applications.store';
 
 import { MAX_APPLICATIONS } from '@/constants/general';
 
-const applications: Application[] | [] = []; //remove with real applications array from state manager
+const applications: Application[] | [] = []; //remove with real applications array from state manager !!
 
 export default function Create() {
-  const { form, updateField } = useJobFormStore();
+  const { form, updateField, clear } = useJobFormStore();
 
-  const [localForm, setLocalForm] = useState(form);
-
-  function setField<K extends keyof typeof localForm>(field: K, value: string) {
-    setLocalForm((prev) => ({
-      ...prev,
-      [field]: value,
-    }));
-  }
-
-  function commitField<K extends keyof typeof localForm>(field: K) {
-    updateField(field, localForm[field]);
+  function handleFieldChange<K extends keyof JobFormData>(
+    field: K,
+    value: JobFormData[K],
+  ) {
+    updateField(field, value);
   }
 
   const canGenerate = useMemo(() => {
     return (
-      localForm.jobTitle.trim() !== '' &&
-      localForm.company.trim() !== '' &&
-      localForm.skills.trim() !== '' &&
-      localForm.additionalDetails.trim() !== ''
+      form.jobTitle.trim() !== '' &&
+      form.company.trim() !== '' &&
+      form.skills.trim() !== '' &&
+      form.additionalDetails.trim() !== ''
     );
-  }, [localForm]);
+  }, [form]);
+
+  function generateId(): string {
+    return crypto.randomUUID();
+  }
+
+  const addApplication = useApplicationsStore((state) => state.addApplication);
 
   function handleGenerate() {
-    updateField('jobTitle', localForm.jobTitle);
-    updateField('company', localForm.company);
-    updateField('skills', localForm.skills);
-    updateField('additionalDetails', localForm.additionalDetails);
+    const generationData = { ...form };
 
-    console.log('GENERATE:', localForm);
+    const applicationText = `
+      Dear ${generationData.company} Team,
+      I am writing to express my interest in the ${generationData.jobTitle} position.
+      My experience in the realm combined with my skills in ${generationData.skills} make me a strong candidate for this role.
+      ${generationData.additionalDetails}
+    `;
+
+    addApplication({
+      id: generateId(),
+
+      ...generationData,
+
+      applicationText,
+    });
+
+    clear();
   }
 
   return applications.length >= MAX_APPLICATIONS ? (
@@ -57,7 +71,11 @@ export default function Create() {
   ) : (
     <main className="mt-8 flex w-full flex-col gap-8 sm:flex-row">
       <section className="flex-1">
-        <h2 className="text-gray text-4xl font-semibold">New Application</h2>
+        <h2 className="text-gray text-4xl font-semibold">
+          {form.jobTitle && form.company
+            ? `${form.jobTitle}, ${form.company}`
+            : 'New Application'}
+        </h2>
         <hr className="bg-gray my-4 h-px w-full" />
         <div className="space-y-6">
           <div className="flex flex-col gap-4 md:flex-row">
@@ -67,12 +85,11 @@ export default function Create() {
               </label>
 
               <Input
-                value={localForm.jobTitle}
+                value={form.jobTitle}
                 maxLength={100}
                 placeholder="Product Manager"
                 className="border-gray-light focus-visible:ring-gray-light"
-                onChange={(e) => setField('jobTitle', e.target.value)}
-                onBlur={() => commitField('jobTitle')}
+                onChange={(e) => handleFieldChange('jobTitle', e.target.value)}
               />
             </div>
 
@@ -82,12 +99,11 @@ export default function Create() {
               </label>
 
               <Input
-                value={localForm.company}
+                value={form.company}
                 maxLength={100}
                 placeholder="Apple"
                 className="border-gray-light focus-visible:ring-gray-light"
-                onChange={(e) => setField('company', e.target.value)}
-                onBlur={() => commitField('company')}
+                onChange={(e) => handleFieldChange('company', e.target.value)}
               />
             </div>
           </div>
@@ -98,12 +114,11 @@ export default function Create() {
             </label>
 
             <Input
-              value={localForm.skills}
+              value={form.skills}
               maxLength={100}
               placeholder="HTML, CSS and doing things in time"
               className="border-gray-light focus-visible:ring-gray-light"
-              onChange={(e) => setField('skills', e.target.value)}
-              onBlur={() => commitField('skills')}
+              onChange={(e) => handleFieldChange('skills', e.target.value)}
             />
           </div>
 
@@ -113,22 +128,23 @@ export default function Create() {
             </label>
 
             <Textarea
-              value={localForm.additionalDetails}
+              value={form.additionalDetails}
               maxLength={1200}
               rows={8}
               placeholder="Describe why you are a great fit or paste your bio"
               className="border-gray-light focus-visible:ring-gray-light"
-              onChange={(e) => setField('additionalDetails', e.target.value)}
-              onBlur={() => commitField('additionalDetails')}
+              onChange={(e) =>
+                handleFieldChange('additionalDetails', e.target.value)
+              }
             />
             <span
               className={`text-xs ${
-                localForm.additionalDetails.length > 1000
+                form.additionalDetails.length > 1000
                   ? 'text-red-500'
                   : 'text-muted-foreground'
               }`}
             >
-              {localForm.additionalDetails.length}/1200
+              {form.additionalDetails.length}/1200
             </span>
           </div>
 
