@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { MAX_APPLICATIONS } from '@/constants/general';
+import Link from 'next/link';
 
 export default function Header() {
   return (
@@ -22,8 +23,15 @@ export default function Header() {
             />
           ))}
         </div>
-        <Button variant="outline" size="xs">
-          <Image src="/icons/home.svg" alt="home icon" width={20} height={20} />
+        <Button asChild variant="outline" size="xs">
+          <Link href="/">
+            <Image
+              src="/icons/home.svg"
+              alt="home icon"
+              width={20}
+              height={20}
+            />
+          </Link>
         </Button>
       </div>
     </header>

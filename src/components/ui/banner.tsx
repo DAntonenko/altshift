@@ -1,5 +1,6 @@
 import { Button } from '@/components/ui/button';
 import { MAX_APPLICATIONS } from '@/constants/general';
+import Link from 'next/link';
 
 export default function Banner() {
   return (
@@ -10,7 +11,9 @@ export default function Banner() {
         <br />
         today to get hired faster
       </p>
-      <Button>+ Create New</Button>
+      <Button asChild>
+        <Link href="/create">+ Create New</Link>
+      </Button>
       <div className="mt-3 flex gap-2">
         {Array.from({ length: MAX_APPLICATIONS }, (_, i) => (
           <div
