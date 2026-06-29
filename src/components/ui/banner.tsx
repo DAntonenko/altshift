@@ -1,4 +1,5 @@
 import { Button } from '@/components/ui/button';
+import { MAX_APPLICATIONS } from '@/constants/general';
 
 export default function Banner() {
   return (
@@ -11,14 +12,14 @@ export default function Banner() {
       </p>
       <Button>+ Create New</Button>
       <div className="mt-3 flex gap-2">
-        {Array.from({ length: 5 }, (_, i) => (
+        {Array.from({ length: MAX_APPLICATIONS }, (_, i) => (
           <div
             key={i}
             className={`h-2 w-8 rounded-full ${i < 3 ? 'bg-slate-900' : 'bg-slate-300'}`}
           />
         ))}
       </div>
-      <p>3 out of 5</p>
+      <p>3 out of {MAX_APPLICATIONS}</p>
     </section>
   );
 }

@@ -1,5 +1,6 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
+import { MAX_APPLICATIONS } from '@/constants/general';
 
 export default function Header() {
   return (
@@ -12,9 +13,9 @@ export default function Header() {
         priority
       />
       <div className="flex items-center gap-4 text-lg">
-        3/5 applications generated
+        3/{MAX_APPLICATIONS} applications generated
         <div className="flex gap-1">
-          {Array.from({ length: 5 }, (_, i) => (
+          {Array.from({ length: MAX_APPLICATIONS }, (_, i) => (
             <div
               key={i}
               className={`h-2 w-2 rounded-full ${i < 3 ? 'bg-slate-900' : 'bg-slate-300'}`}
