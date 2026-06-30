@@ -23,7 +23,7 @@ export default function Home() {
 
       <hr className="bg-gray my-2 h-px w-full" />
 
-      <section className="grid w-full grid-cols-2 gap-4">
+      <section className="grid w-full grid-cols-1 gap-4 sm:grid-cols-2">
         {applications.map((app) => (
           <Card
             key={app.id}
