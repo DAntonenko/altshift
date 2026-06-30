@@ -157,13 +157,29 @@ export default function Create() {
             </span>
           </div>
 
-          <Button
-            disabled={!canGenerate}
-            onClick={handleGenerate}
-            className="w-full"
-          >
-            Generate Now
-          </Button>
+          {generatedText ? (
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => setGeneratedText(null)}
+            >
+              <Image
+                src="/icons/repeat.svg"
+                alt="refresh icon"
+                width={24}
+                height={24}
+              />
+              Try Again
+            </Button>
+          ) : (
+            <Button
+              disabled={!canGenerate}
+              onClick={handleGenerate}
+              className="w-full"
+            >
+              Generate Now
+            </Button>
+          )}
         </div>
       </section>
       <section className="bg-gray-lighter flex flex-1 flex-col justify-between rounded-md p-6">
