@@ -1,14 +1,17 @@
 'use client';
 
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
+import Image from 'next/image';
 
 import { JobFormData } from '@/store/job-form.store';
 import { useJobFormStore } from '@/store/job-form.store';
 import { useApplicationsStore } from '@/store/applications.store';
+
+import { copyToClipboard } from '@/utils/copyToClipboard';
 
 import { MAX_APPLICATIONS } from '@/constants/general';
 
@@ -41,15 +44,19 @@ export default function Create() {
     (state) => state.applications.length,
   );
 
+  const [generatedText, setGeneratedText] = useState<string | null>(null);
+
   function handleGenerate() {
     const generationData = { ...form };
 
-    const applicationText = `
-      Dear ${generationData.company} Team,
-      I am writing to express my interest in the ${generationData.jobTitle} position.
-      My experience in the realm combined with my skills in ${generationData.skills} make me a strong candidate for this role.
-      ${generationData.additionalDetails}
-    `;
+    const applicationText = [
+      `Dear ${generationData.company} Team,`,
+      `I am writing to express my interest in the ${generationData.jobTitle} position.`,
+      `My experience in the realm combined with my skills in ${generationData.skills} make me a strong candidate for this role.`,
+      generationData.additionalDetails,
+    ].join('\n\n');
+
+    setGeneratedText(applicationText);
 
     addApplication({
       id: generateId(),
@@ -159,8 +166,30 @@ export default function Create() {
           </Button>
         </div>
       </section>
-      <section className="bg-gray-lighter flex-1 rounded-md p-6">
-        Your personalized job application will appear here...
+      <section className="bg-gray-lighter flex flex-1 flex-col justify-between rounded-md p-6">
+        {generatedText ? (
+          <p className="whitespace-pre-wrap">{generatedText}</p>
+        ) : (
+          <p>Your personalized job application will appear here...</p>
+        )}
+        <footer className="flex items-center justify-end">
+          <Button
+            variant="ghost"
+            size="gh"
+            disabled={!generatedText}
+            onClick={
+              generatedText ? () => copyToClipboard(generatedText) : undefined
+            }
+          >
+            Copy to Clipboard
+            <Image
+              src="/icons/copy.svg"
+              alt="copy icon"
+              width={20}
+              height={20}
+            />
+          </Button>
+        </footer>
       </section>
     </main>
   );

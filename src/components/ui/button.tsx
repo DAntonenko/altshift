@@ -12,7 +12,7 @@ const buttonVariants = cva(
         default: 'bg-green text-white hover:bg-green-600',
         outline:
           'text-black border-border bg-background hover:bg-gray-lighter aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50',
-        ghost: 'text-md text-gray-dark items-start',
+        ghost: 'text-md text-gray-dark items-start disabled:bg-initial',
       },
       size: {
         default:
