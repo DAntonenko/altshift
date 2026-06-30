@@ -1,8 +1,15 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
 import { MAX_APPLICATIONS } from '@/constants/general';
 import Link from 'next/link';
+import { useApplicationsStore } from '@/store/applications.store';
 
 export default function Banner() {
+  const applicationsCount = useApplicationsStore(
+    (state) => state.applications.length,
+  );
+
   return (
     <section className="bg-green-light text-gray flex w-full flex-col items-center justify-between gap-4 rounded-lg px-6 py-13.5 text-center">
       <h2 className="text-4xl font-semibold text-black">Hit your goal</h2>
@@ -18,11 +25,13 @@ export default function Banner() {
         {Array.from({ length: MAX_APPLICATIONS }, (_, i) => (
           <div
             key={i}
-            className={`h-2 w-8 rounded-full ${i < 3 ? 'bg-slate-900' : 'bg-slate-300'}`}
+            className={`h-2 w-8 rounded-full ${i < applicationsCount ? 'bg-slate-900' : 'bg-slate-300'}`}
           />
         ))}
       </div>
-      <p>3 out of {MAX_APPLICATIONS}</p>
+      <p>
+        {applicationsCount} out of {MAX_APPLICATIONS}
+      </p>
     </section>
   );
 }

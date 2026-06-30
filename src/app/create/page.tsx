@@ -6,14 +6,11 @@ import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Button } from '@/components/ui/button';
 
-import { Application } from '@/models/application';
 import { JobFormData } from '@/store/job-form.store';
 import { useJobFormStore } from '@/store/job-form.store';
 import { useApplicationsStore } from '@/store/applications.store';
 
 import { MAX_APPLICATIONS } from '@/constants/general';
-
-const applications: Application[] | [] = []; //remove with real applications array from state manager !!
 
 export default function Create() {
   const { form, updateField, clear } = useJobFormStore();
@@ -40,6 +37,10 @@ export default function Create() {
 
   const addApplication = useApplicationsStore((state) => state.addApplication);
 
+  const applicationsCount = useApplicationsStore(
+    (state) => state.applications.length,
+  );
+
   function handleGenerate() {
     const generationData = { ...form };
 
@@ -61,11 +62,12 @@ export default function Create() {
     clear();
   }
 
-  return applications.length >= MAX_APPLICATIONS ? (
-    <main>
+  return applicationsCount >= MAX_APPLICATIONS ? (
+    <main className="flex w-full items-center justify-center pt-40 text-center text-2xl text-black">
       <p>
-        You have reached the maximum number of applications. You can delete some
-        of them to be able to create new ones.
+        You have reached the maximum number of applications.
+        <br />
+        You can delete some of them to be able to create new ones.
       </p>
     </main>
   ) : (
