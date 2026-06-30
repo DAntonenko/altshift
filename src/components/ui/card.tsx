@@ -3,7 +3,7 @@
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { useApplicationsStore } from '@/store/applications.store';
-import { copyToClipboard } from '@/utils/copyToClipboard';
+import { copyToClipboard } from '@/utils/copyToClipboard/copyToClipboard';
 import { Application } from '@/models/application';
 
 type CardProps = Pick<Application, 'id' | 'applicationText'>;

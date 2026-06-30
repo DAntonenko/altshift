@@ -12,7 +12,8 @@ import { JobFormData } from '@/store/job-form.store';
 import { useJobFormStore } from '@/store/job-form.store';
 import { useApplicationsStore } from '@/store/applications.store';
 
-import { copyToClipboard } from '@/utils/copyToClipboard';
+import { generateApplicationText } from '@/utils/generateApplicationText/generateApplicationText';
+import { copyToClipboard } from '@/utils/copyToClipboard/copyToClipboard';
 
 import { MAX_APPLICATIONS } from '@/constants/general';
 
@@ -50,12 +51,7 @@ export default function Create() {
   function handleGenerate() {
     const generationData = { ...form };
 
-    const applicationText = [
-      `Dear ${generationData.company} Team,`,
-      `I am writing to express my interest in the ${generationData.jobTitle} position.`,
-      `My experience in the realm combined with my skills in ${generationData.skills} make me a strong candidate for this role.`,
-      generationData.additionalDetails,
-    ].join('\n\n');
+    const applicationText = generateApplicationText(generationData);
 
     setGeneratedText(applicationText);
 
