@@ -16,7 +16,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={fixel.variable}>
-      <body className="bg-background flex min-h-full justify-center">
+      <body className="bg-background flex min-h-screen justify-center">
         <div className="text-gray flex max-w-[1264px] flex-1 flex-col items-center p-8">
           <Header />
           {children}

@@ -1,9 +1,10 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
-import { MAX_APPLICATIONS } from '@/constants/general';
 import Link from 'next/link';
 import { useApplicationsStore } from '@/store/applications.store';
+
+import { MAX_APPLICATIONS } from '@/constants/general';
 
 export default function Banner() {
   const applicationsCount = useApplicationsStore(
@@ -11,7 +12,7 @@ export default function Banner() {
   );
 
   return (
-    <section className="bg-green-light text-gray flex w-full flex-col items-center justify-between gap-4 rounded-lg px-6 py-13.5 text-center">
+    <section className="bg-green-light text-gray mt-auto flex w-full flex-col items-center justify-between gap-4 rounded-lg px-6 py-13.5 text-center">
       <h2 className="text-4xl font-semibold text-black">Hit your goal</h2>
       <p>
         Generate and send out couple more job applications

@@ -80,11 +80,11 @@ export default function Create() {
   ) : (
     <main className="mt-8 flex w-full flex-col gap-8 sm:flex-row">
       <section className="flex-1">
-        <h2 className="text-gray text-4xl font-semibold">
+        <h1 className="text-gray text-4xl font-semibold">
           {form.jobTitle && form.company
             ? `${form.jobTitle}, ${form.company}`
             : 'New Application'}
-        </h2>
+        </h1>
         <hr className="bg-gray my-4 h-px w-full" />
         <div className="space-y-6">
           <div className="flex flex-col gap-4 md:flex-row">
